@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored= "false"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -215,6 +215,49 @@
     button:hover::after { opacity: 0.08; }
     button:active { transform: translateY(0); box-shadow: none; }
 
+    .result-area {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .result-area.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .result-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .result-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(232,255,71,0.4);
+      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.6); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .error-msg {
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
+    }
+
     .ticker {
       position: fixed;
       bottom: 0; left: 0; right: 0;
@@ -246,26 +289,12 @@
   <div class="card">
     <div class="label-top">// arithmetic_unit.exe</div>
     <h1>ADD <span>IT</span><br>UP.</h1>
-    <p class="subtitle">INPUT ID and Name</p>
 
-    <form action="addArtist" >
-      <div class="fields">
-        <div class="field-group">
-          <label for="num1">ID</label>
-          <input type="number" id="id" name="id" placeholder="0" required />
-        </div>
-        <div class="operator">+</div>
-        <div class="field-group">
-          <label for="num2">Name</label>
-          <input type="text" id="name" name="name" placeholder="0" required />
-        </div>
-      </div>
+    <div class="divider"></div>
 
-      <div class="divider"></div>
-
-      <button type="submit">SUBMIT →</button>
-    </form>
-  </div>
+      <div class="result-value">ARTIST: ${artist}</div>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
 
   <div class="ticker">
     <div class="ticker-inner">
@@ -284,6 +313,6 @@
     </div>
   </div>
 
-
+  
 </body>
 </html>
