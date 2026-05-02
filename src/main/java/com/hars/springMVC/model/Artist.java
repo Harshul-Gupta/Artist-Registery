@@ -1,6 +1,11 @@
 package com.hars.springMVC.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Artist {
+	@Id
 	int id;
 	String name;
 	public int getId() {
@@ -18,6 +23,14 @@ public class Artist {
 	@Override
 	public String toString() {
 		return "Artist [id=" + id + ", name=" + name + "]";
+	}
+	public Artist(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	public Artist() {
+		super();
 	}
 	
 }

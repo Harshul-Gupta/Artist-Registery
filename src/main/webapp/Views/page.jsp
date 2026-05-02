@@ -292,7 +292,7 @@
 
     <div class="divider"></div>
 
-      <div class="result-value">ARTIST: ${artist}</div>
+      <div class="result-value">ARTIST: ${a1}</div>
       <div class="error-msg" id="errorMsg"></div>
     </div>
 

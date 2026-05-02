@@ -1,13 +1,19 @@
 package com.hars.springMVC;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hars.springMVC.model.Artist;
+import com.hars.springMVC.model.ArtistRepo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +26,16 @@ public class HomeController {
 	HomeController(SpringMvcApplication springMvcApplication) {
 		this.springMvcApplication = springMvcApplication;
 	}
-
+	
+	@Autowired
+	ArtistRepo artistRepo;
+	
+	@ModelAttribute
+	public void ModelClass(Model m)
+	{
+		m.addAttribute("name", "Guest");
+	}
+	
 	@RequestMapping("/")
 	public String home()
 	{
@@ -28,18 +43,33 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping("add")
-	public String add(@RequestParam("num1") int first, @RequestParam("num2") int second, Model m)
+	@GetMapping("getArtists")
+	public String getArtist(Model m)
 	{
-		int result= first + second;
-		m.addAttribute("result", result);
-		return "result";
+		
+		m.addAttribute("artists", artistRepo.findAll());
+		return "showArtist" ;
 	}
 	
-	@RequestMapping("addArtist")
-	public String addArtist(@ModelAttribute Artist artist)
+	@GetMapping("getArtist")
+	public String getArtist(@RequestParam("id") int aid, Model m)
 	{
-
+		m.addAttribute("artist", artistRepo.getReferenceById(aid));
+		return "dispArtist";
+	}
+	
+	@GetMapping("getId")
+	public String getId(@RequestParam("name") String aname, Model m)
+	{
+		m.addAttribute("artist", artistRepo.getByName(aname));
+		return "dispArtist";
+	}
+	
+	
+	@PostMapping(value= "addArtist")
+	public String addArtist(@ModelAttribute("a1") Artist artist)
+	{
+		artistRepo.save(artist);
 		return "page";
 	}
 }
